@@ -1,7 +1,8 @@
 import pygame
-from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE, RED
+from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE, RED, WHITE
 from checkers.board import Board
 from checkers.game import Game
+from minimax.algorithm import minimax
 
 FPS = 60
 
@@ -22,9 +23,13 @@ def main():
     while run:
         clock.tick(FPS)
 
+        if game.turn == WHITE:
+            valure, new_board = minimax(game.get_board(), 4, WHITE, game)
+            game.ai_move(new_board)
+
         if game.winner() != None:
             print(game.winner())
-            break
+            run = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
